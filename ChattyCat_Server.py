@@ -18,3 +18,16 @@ def handle_client(client_socket, address):
         except:
             break
     client_socket.close()
+
+def start_server():
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((HOST, PORT))
+    server.listen()
+    print(f"[*] Server is listening on {HOST}:{PORT}. . .")
+
+    client_socket, addr = server.accept()
+    client_thread = threading.Thread(target=handle_client, args=(client_socket, addr))
+    client_thread.start()
+
+if __name__ == "__main__":
+    start_server()
