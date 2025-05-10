@@ -1,7 +1,7 @@
 import socket
 import threading
 
-HOST = '0.0.0.0'
+HOST = '127.0.0.1'
 PORT = 9999
 
 def receive_messages(sock):
@@ -15,6 +15,7 @@ def receive_messages(sock):
             break
 
 def start_client():
+    print("I'm alive")
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((HOST, PORT))
 
