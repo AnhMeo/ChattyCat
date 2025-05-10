@@ -1,6 +1,9 @@
 import socket
 import threading
 
+HOST = '0.0.0.0'
+PORT = 9999
+
 def receive_messages(sock):
     while True:
         try:
