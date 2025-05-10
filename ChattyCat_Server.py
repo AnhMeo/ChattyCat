@@ -1,18 +1,20 @@
 import socket
+import threading
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(("localhost", 9999))
+HOST = '0.0.0.0'
+PORT = 9999
 
-server.listen()
-
-client, addr = server.accept()
-
-done = False
-
-while not done: 
-    msg = client.recv(1024).decode('utf-8')
-    if msg == 'quit':
-        done = True
-    else: 
-        print(msg)
-    client.send(input("Message: ").encode('utf-8'))
+def handle_client(client_socket, address):
+    print(f"[+] Connected to {address}")
+    while True:
+        try:
+            msg = client_socket.recv(1024).decode('utf-8')
+            if msg.lower() == 'quit':
+                print("[-] Client disconnected")
+                break
+            print(f"Client: {msg}")
+            response = input("You: ")
+            client_socket.send(response.encode('utf-8'))
+        except:
+            break
+    client_socket.close()
