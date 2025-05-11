@@ -9,6 +9,7 @@ PORT = 9999
 
 class ChatClient:
     def __init__(self, root):
+        #Again, TCP socket setup
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.root = root
         self.running = True
@@ -36,6 +37,7 @@ class ChatClient:
         
         self.log("Client GUI initialized")
 
+    #shows all messages sent and received
     def log(self, message):
         self.chat_area.config(state='normal')
         timestamp = datetime.now().strftime("%H:%M:%S")
@@ -43,6 +45,7 @@ class ChatClient:
         self.chat_area.config(state='disabled')
         self.chat_area.yview(tk.END)
 
+    #starts a thread to continuosly receive messages
     def connect_to_server(self):
         try:
             self.client_socket.connect((HOST, PORT))
@@ -51,6 +54,7 @@ class ChatClient:
         except Exception as e:
             self.log(f"Connection error: {e}")
 
+    #listens for incoming messages and dispalys them in the log
     def receive_messages(self):
         while self.running:
             try:
@@ -62,6 +66,7 @@ class ChatClient:
                 break
         self.log("Disconnected from server")
 
+    #sends messages to the server
     def send_message(self):
         msg = self.msg_entry.get().strip()
         if msg:
@@ -69,6 +74,7 @@ class ChatClient:
                 self.client_socket.send(msg.encode('utf-8'))
                 self.log(f"You: {msg}")
                 self.msg_entry.delete(0, tk.END)
+                #one of the ways to  close the program (see line 83)
                 if msg.lower() == 'quit':
                     self.quit()
             except:

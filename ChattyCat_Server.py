@@ -9,9 +9,10 @@ PORT = 9999
 
 class ChatServer:
     def __init__(self, root):
+        #TCP socket
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.clients = {}  # {client_socket: address}
+        self.clients = {} 
         self.root = root
         self.setup_gui()
         self.start_server()
@@ -24,7 +25,7 @@ class ChatServer:
         self.log_area = scrolledtext.ScrolledText(self.root, height=15, width=50, state='disabled')
         self.log_area.pack(padx=10, pady=10)
         
-        # Start button
+        # Stop button
         tk.Button(self.root, text="Stop Server", command=self.stop_server).pack(pady=5)
         
         self.log("Server GUI initialized")
@@ -38,13 +39,14 @@ class ChatServer:
 
     def start_server(self):
         try:
+            #binds to localhost and port 9999
             self.server_socket.bind((HOST, PORT))
             self.server_socket.listen()
             self.log(f"Server listening on {HOST}:{PORT}")
             threading.Thread(target=self.accept_clients, daemon=True).start()
         except Exception as e:
             self.log(f"Server error: {e}")
-
+    #runs in a thread for each client to handle messages
     def accept_clients(self):
         while True:
             try:
@@ -54,7 +56,8 @@ class ChatServer:
                 threading.Thread(target=self.handle_client, args=(client_socket, addr), daemon=True).start()
             except:
                 break
-
+    
+    #receives messages and logs them
     def handle_client(self, client_socket, addr):
         while True:
             try:
@@ -67,7 +70,7 @@ class ChatServer:
             except:
                 break
         self.remove_client(client_socket)
-
+    #broadcasts the message to all other clients
     def broadcast(self, msg, sender_socket):
         for client_socket in list(self.clients.keys()):
             if client_socket != sender_socket:
@@ -75,7 +78,7 @@ class ChatServer:
                     client_socket.send(msg.encode('utf-8'))
                 except:
                     self.remove_client(client_socket)
-
+    #clean-up if a client disconnects
     def remove_client(self, client_socket):
         if client_socket in self.clients:
             addr = self.clients.pop(client_socket)
