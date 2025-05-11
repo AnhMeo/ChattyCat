@@ -23,12 +23,14 @@ The  messages are in the utf-8 format.
 # Development Environment
 
 This program was developed in VSCode
+
 Language: Python
+
 The following libraries were used: 
-Socket - for the networking and communication
-Tkinter - for the GUI
-Threading - for continued listening for messages and to allow multiple clients
-Datetime - for the timestamps on messages
+* Socket - for the networking and communication
+* Tkinter - for the GUI
+* Threading - for continued listening for messages and to allow multiple clients
+* Datetime - for the timestamps on messages
 
 
 # Useful Websites
