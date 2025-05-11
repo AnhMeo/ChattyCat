@@ -10,7 +10,7 @@ To get this to work, follow these steps:
 5. Use the client GUI windows to chat!
 
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/WTS-si790U8)
 
 # Network Communication
 
@@ -25,7 +25,7 @@ The  messages are in the utf-8 format.
 This program was developed in VSCode
 Language: Python
 The following libraries were used: 
-Socket - for the networking 
+Socket - for the networking and communication
 Tkinter - for the GUI
 Threading - for continued listening for messages and to allow multiple clients
 Datetime - for the timestamps on messages
